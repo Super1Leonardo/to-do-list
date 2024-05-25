@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flexix {
+    @apply flex justify-center items-center
+}
+*{
+    @apply select-none
+}
