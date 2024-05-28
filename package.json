@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"prisma": "tsx prisma.ts",
-		"clear db": "pnpx prisma db push --force-reset"
+		"clear-db": "pnpx prisma db push --force-reset"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",

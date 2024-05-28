@@ -12,7 +12,16 @@
 </style>
 
 <script lang="ts">
-import { onMount } from 'svelte';
+    import { PrismaClient } from '@prisma/client';
+    import { onMount } from 'svelte';
+
+
+const prisma = new PrismaClient()
+
+async function findTask() {
+    
+}
+
 let array: {
     id: number;
     text: string;
@@ -47,6 +56,8 @@ onMount(() => {
     })
 });
 
+
+
 </script>
 
 <link rel="stylesheet" href="src\routes\main.css">
@@ -57,8 +68,8 @@ onMount(() => {
     <ul>
         {#each array as {id, text}}
             <li>
-                <div class="bg-second mx-[2vw] flexix my-[3vh] h-[6vh] rounded-lg ">
-                    <h1 class="text-2xl text-white my-custom-style">{id}: {text}</h1>
+                <div class="bg-second mx-[2vw] flex px-4 items-center my-[3vh] h-[6vh] rounded-lg ">
+                    <h1 class="text-2xl text-white">{id}: {text}</h1>
                 </div>
             </li>
         {/each}
@@ -71,7 +82,7 @@ onMount(() => {
         <textarea class="bg-black text-white text-start text-xl focus-visible:outline-none border-4 border-spotify p-3 rounded-xl h-full mt-[2vh]"></textarea>
     </div>
     <div class="bg-black fixed bottom-0 left-0 right-0 z-10 transition-all duration-700 ease-in-out h-[6vh] rounded-lg text-black font-bold text-2xl">
-        <div id="button2" class="flex justify-center opacity-0 items-center bg-black border-4 border-spotify cursor-pointer fixed bottom-0 left-0 right-0 mx-[2vw] z-10 mb-[13vh] h-[6vh] rounded-lg text-spotify font-bold text-2xl">Cancel</div>
+        <div id="button2" class="flex justify-center opacity-0 transition-all duration-500 ease-in-out items-center bg-black border-4 border-spotify cursor-pointer fixed bottom-0 left-0 right-0 mx-[2vw] z-10 mb-[13vh] h-[6vh] rounded-lg text-spotify font-bold text-2xl">Cancel</div>
         <div id='button' class="flexix bg-spotify cursor-pointer fixed bottom-0 left-0 right-0 mx-[2vw] z-10 mb-[6vh] h-[6vh] rounded-lg text-black font-bold text-2xl">Add item</div>
     </div>
 </div>

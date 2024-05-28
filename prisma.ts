@@ -3,18 +3,18 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 async function createPost() {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: 'john.doe@example.com'
-    }
-  })
-
-  const post = await prisma.post.create({
+  const user = await prisma.user.create({
     data: {
-      author: {
-        connect: {
-          id: user?.id
-        }
+        password: '1234',
+        name: 'Leo'
+    }
+  });
+
+  const post = await prisma.task.create({
+    data: {
+      text: "hello",
+      user: {
+        connect: {id: user.id}
       }
     }
   })
