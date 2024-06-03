@@ -13,19 +13,38 @@
 
 <script lang="ts">
     import { goto } from '$app/navigation';
-    
+    import { onMount } from 'svelte';
+    import {browser} from '$app/environment';
+
     async function toMain() {
-        goto('/main-page');
+        await goto('/main-page')
     }
+
+    export let nickname: string;
+    export let password: string;
+
+    onMount(() => {
+        let nick = document.querySelector('#nickname') as HTMLInputElement
+        let pass = document.querySelector('#password') as HTMLInputElement
+        nick.addEventListener('input', () => {
+            nickname = nick.value
+        })
+        pass.addEventListener('input', () => {
+            password = pass.value
+        })
+    })
 </script>
 
 <div class="flexix flex-col h-full px-[2vw] pb-[1.5vh] pt-[10vh] ">
-    <h1 class='font-bold text-5xl'>Welcome!</h1>
-    <div class="bg-second rounded-lg flex flex-col items-center px-[5vw] w-full mt-[5vh] h-[45vh] ">
-        <h2 class="font-bold mt-[5vh] ">Nickname</h2>
-        <input class="text-white text-xl w-full bg-black mt-[2vh] border-4 border-spotify focus-visible:outline-none rounded-xl px-[1vh]">
-        <h2 class="font-bold mt-[4vh] ">Password</h2>
-        <input class="text-white w-full text-xl bg-black mt-[2vh] border-4 border-spotify focus-visible:outline-none rounded-xl px-[1vh]">
-    </div>
-    <button id='button' on:click={toMain} class="flexix bg-spotify cursor-pointer fixed bottom-0 left-0 right-0 mx-[2vw] z-10 mb-[11vh] h-[6vh] rounded-lg text-black font-bold text-2xl">Next</button>
+    <form action="?/login" method="post" style="display: contents;">
+        <h1 class='font-bold text-5xl'>Welcome!</h1>
+        <div class="bg-second rounded-lg flex flex-col items-center px-[5vw] w-full mt-[5vh] h-[45vh] ">  
+            <h2 class="font-bold mt-[5vh] ">Nickname</h2>
+            <input id="nickname" name="nickname" class="text-white text-xl w-full bg-black mt-[2vh] border-4 border-spotify focus-visible:outline-none rounded-xl px-[1vh]">
+            <h2 class="font-bold mt-[4vh] ">Password</h2>
+            <input id="password" name="password" class="text-white w-full text-xl bg-black mt-[2vh] border-4 border-spotify focus-visible:outline-none rounded-xl px-[1vh]">
+        </div>
+            <button id='button' class="flexix bg-spotify cursor-pointer fixed bottom-0 left-0 right-0 mx-[2vw] z-10 mb-[11vh] h-[6vh] rounded-lg text-black font-bold text-2xl">Next</button>
+    </form>
+    
 </div>
