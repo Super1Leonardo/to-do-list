@@ -13,6 +13,7 @@ async function createPost() {
   const post = await prisma.task.create({
     data: {
       text: "hello",
+      title: 'title',
       user: {
         connect: {id: user.id}
       }
