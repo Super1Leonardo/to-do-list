@@ -1,18 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
-import { goto } from '$app/navigation';
 import { redirect } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
+import { dataStore } from '../store';
 
 const prisma = new PrismaClient()
-
-export let load: PageServerLoad = async () => {
-    return {
-        product: 'hello'
-    }
-}
-
 export const actions = {
 	sign_in: async ({request}) => {
 	    const {nickname, password} = Object.fromEntries(await request.formData()) as {
@@ -26,11 +19,16 @@ export const actions = {
         let passwords: string[] = []
         users.forEach((item)=>{names.push(item.name), passwords.push(item.password)})
         if (names.includes(nickname) && passwords.includes(password)) {
+            dataStore.set(nickname)
             redirect(301, '/main-page')
         } else if (!(names.includes(nickname)) && passwords.includes(password)) {
-            console.log(1)
+            return {
+                value: 1
+            }
         } else if (!(passwords.includes(password)) && names.includes(nickname)) {
-            console.log(2)
+            return {
+                value: 2
+            }
         } else if (!(names.includes(nickname) && passwords.includes(password))) {
             return {
                 value: 3
@@ -44,11 +42,23 @@ export const actions = {
             nickname: string;
             password: string;
         }
-        const users = await prisma.user.create({
-            data: {
-                password: password,
-                name: nickname
+        const findUsers = await prisma.user.findMany()
+        let names: string[] = []
+        let passwords: string[] = []
+        findUsers.forEach((item)=>{names.push(item.name), passwords.push(item.password)})
+        if (!(names.includes(nickname))) {
+            await prisma.user.create({
+                data: {
+                    name: nickname,
+                    password: password
+                }
+            })
+            dataStore.set(nickname)
+            redirect(301, '/main-page')
+        } else if (names.includes(nickname)) {
+            return {
+                value: 10
             }
-        })
+        }
     }
 } satisfies Actions;

@@ -12,22 +12,17 @@
 </style>
 
 <script lang="ts">
-    import { PrismaClient } from '@prisma/client';
-    import { onMount } from 'svelte';
 
+import { PrismaClient } from '@prisma/client';
+import { onMount } from 'svelte';
+import type { PageData } from '../$types';
 
 const prisma = new PrismaClient()
 
-async function findTask() {
-    
-}
-
-let array: {
-    id: number;
-    text: string;
-}[] = []
-
-
+let array: string[] = []
+export let data: PageData;
+data.tasks.forEach((item)=>{array.push(item)})
+console.log(data)
 
 onMount(() => {
     async function Modal(opacity: string) {
@@ -58,10 +53,6 @@ onMount(() => {
     // submiting
     let title = (document.querySelector('#title')).innerHTML
     let text = (document.querySelector('#text')).innerHTML
-
-    async function Submit(title: string, text: string) {
-        const newTask = await prisma.task.create    
-    }
 });
 
 
@@ -74,10 +65,10 @@ onMount(() => {
     <div>
         <h1 class="font-bold text-5xl flexix text-spotify mt-[2vh] ">To do list</h1>
     <ul>
-        {#each array as {id, text}}
+        {#each array as text}
             <li>
                 <div class="bg-second mx-[2vw] flex px-4 items-center my-[3vh] h-[6vh] rounded-lg ">
-                    <h1 class="text-2xl text-white">{id}: {text}</h1>
+                    <h1 class="text-2xl text-white">{array.indexOf(text)+1}: {text}</h1>
                 </div>
             </li>
         {/each}

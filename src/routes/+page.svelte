@@ -6,7 +6,7 @@
     h4 { font-size: 1.12em; }
     h5 { font-size: .83em; }
     h6 { font-size: .75em; }    
-    h1, h2, h3, h4, h5, p, input, a {
+    h2, h3, h4, h5, p, input, a {
         @apply text-white select-none
     }
 </style>
@@ -17,14 +17,13 @@
     import {browser} from '$app/environment';
     import type { ActionData, PageData } from './$types';
     import { page } from '$app/stores';
+    import { writable } from 'svelte/store';
     
 
     async function toMain() {
         await goto('/main-page')
     }
-
-    export let data: PageData
-    let form
+    let form: any
     $: form = $page.form    
     
     // if (form.value === 3) {
@@ -34,25 +33,26 @@
     // export let nickname: string;
     // export let password: string;
 
-    // onMount(() => {
-    //     let nick = document.querySelector('#nickname') as HTMLInputElement
-    //     let pass = document.querySelector('#password') as HTMLInputElement
-    //     nick.addEventListener('input', () => {
-    //         nickname = nick.value
-    //     })
-    //     pass.addEventListener('input', () => {
-    //         password = pass.value
-    //     })
-    // })
+    onMount(() => {
+        let nameInput = document.querySelector('#nickname') as HTMLInputElement
+        const name = writable(nameInput.value)
+        
+    })
 </script>
 
-{#if form?.value === 3}
-    <h1> Hello</h1>
-{/if}
+
+<h1 class="z-10 absolute w-full text-center font-bold transition-all ease-in-out text-red-600">
+    {#if form?.value === 1} Incorrect nickname
+    {:else if form?.value === 2} Incorrect password
+    {:else if form?.value === 3} Incorrect nickname and password
+    {:else if form?.value === 10} Nickname already in use
+    {/if}
+</h1>
+
 
 <div class="flexix flex-col h-full px-[2vw] pb-[1.5vh] pt-[10vh] ">
     <form method="post" style="display: contents;">
-        <h1 class='font-bold text-5xl'>Welcome!</h1>
+        <h1 class='font-bold text-white text-5xl'>Welcome!</h1>
         <div class="bg-second rounded-lg flex flex-col items-center px-[5vw] w-full mt-[5vh] h-[45vh] ">  
             <h2 class="font-bold mt-[5vh] ">Nickname</h2>
             <input id="nickname" name="nickname" class="text-white text-xl w-full bg-black mt-[2vh] border-4 border-spotify focus-visible:outline-none rounded-xl px-[1vh]">
