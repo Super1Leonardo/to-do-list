@@ -25,7 +25,7 @@ const task = await prisma.task.findMany({
 let tasks: string[] = []
 task.forEach((item)=>{tasks.push(item.text)})
 
-const postSubscription = await prisma.task.strea
+const postSubscription = await prisma.task.streak
 
 export let load: PageServerLoad = async () => {
     while (true) {
