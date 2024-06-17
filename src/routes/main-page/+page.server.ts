@@ -34,10 +34,43 @@ export const actions = {
             text: string
         }
         // console.log(text)
-        const createTask = await prisma.task.create({
-            data: {
-                text: text,
-                userId: id
+        const findTasks = await prisma.task.findUnique({
+            where: {
+                text: text
+            },
+            select: {
+                text: true
+            }
+        })
+        if (findTasks) {
+            return { success: 'already' }
+        } else {
+            const createTask = await prisma.task.create({
+                data: {
+                    text: text,
+                    userId: id
+                }
+            })
+            const PushTask = await prisma.task.findMany({
+                where: {
+                    userId: id
+                },
+                select: {
+                    text: true
+                }
+            })
+            tasks = []
+            PushTask.forEach((item)=>{tasks.push(item.text)})
+        }
+    },
+    delete: async ({request}) => {
+        const formData = await request.formData()
+        const input = String(formData.get('input'))
+        // console.log(input)
+        
+        const deleteTask = await prisma.task.delete({
+            where: {
+                text: input
             }
         })
         const PushTask = await prisma.task.findMany({
@@ -50,27 +83,6 @@ export const actions = {
         })
         tasks = []
         PushTask.forEach((item)=>{tasks.push(item.text)})
-    },
-    delete: async ({request}) => {
-        const formData = await request.formData()
-        const inputId = formData.get('1')
-        console.log(inputId)        
-        
-        // const deleteTask = await prisma.task.delete({
-        //     where: {
-        //         number: 1
-        //     }
-        // })
-        // const PushTask = await prisma.task.findMany({
-        //     where: {
-        //         userId: id
-        //     },
-        //     select: {
-        //         text: true
-        //     }
-        // })
-        // tasks = []
-        // PushTask.forEach((item)=>{tasks.push(item.text)})
     }
 } satisfies Actions;
 

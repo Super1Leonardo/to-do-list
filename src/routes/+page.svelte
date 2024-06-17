@@ -35,8 +35,7 @@
 
     onMount(() => {
         let nameInput = document.querySelector('#nickname') as HTMLInputElement
-        const name = writable(nameInput.value)
-        
+        const name = writable(nameInput.value)  
     })
 </script>
 

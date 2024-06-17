@@ -1,4 +1,4 @@
 import { get, writable } from 'svelte/store';
 
 export const dataStore = writable();
-export let numberOfDiv = writable(0);
+export let numberOfDiv = writable();
