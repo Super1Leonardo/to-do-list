@@ -33,32 +33,30 @@ $: form = $page.form
 
 onMount(() => {
     async function Modal(display: string) {
-        modal.style.display = display
+        modal.style.marginTop = '0'
     }
+    let number = false;
     let modal = document.querySelector('#modal') as HTMLDivElement
     let button = document.querySelector('#button') as HTMLDivElement
     let button2 = document.querySelector('#button2') as HTMLDivElement
     button.addEventListener('click', () => {
-        const modalDisplayStyle = getComputedStyle(modal).display;
-        // button.style.display = 'flex'
-        if (modalDisplayStyle === 'none') {
-            Modal('flex')
-            button2.style.display = 'flex'
-            button.innerHTML = "Cancel"
-        } else {
-            Modal('none')
+        if (number) {
+            modal.style.marginTop = '600px'
             button2.style.display = 'none'
             button.innerHTML = "Add item"
+            number = !number
+        } else {
+            modal.style.marginTop = '0'
+            button2.style.display = 'flex'
+            button.innerHTML = "Cancel"
+            number = !number
         }
     })
     button2.addEventListener('click', () => {
-        const modalDisplayStyle = getComputedStyle(modal).opacity;
-        Modal('none')
-            button2.style.display = 'none'
-            button.innerHTML = "Add item"
+        Modal('600')
+        button2.style.display = 'none'
+        button.innerHTML = "Add item"
     })
-
-
 });
 
 </script>
@@ -91,7 +89,7 @@ onMount(() => {
         {/if}
     </h1>
     <form method="post" class=" contents">
-    <div id='modal' class="fixed hidden border-4 border-spotify transition-all duration-500 ease-in-out left-0 justify-start py-[2vh] px-[5vw] flex-col top-[calc(50%-16vh)] right-0 z-20 bg-second mx-[2vw] rounded-lg h-[36vh] ">
+    <div id='modal' class="fixed flex mt-[600px] border-4 border-spotify transition-all duration-500 ease-in-out left-0 justify-start py-[2vh] px-[5vw] flex-col top-[calc(50%-16vh)] right-0 z-20 bg-second mx-[2vw] rounded-lg h-[36vh] ">
         <h1 class="text-white text-3xl flex justify-center mt-[2vh] font-bold">Enter a text</h1>
         <textarea id='text' name="text" class="bg-black text-white text-start text-xl focus-visible:outline-none p-3 rounded-xl h-full mt-[2vh]"></textarea>
     </div>

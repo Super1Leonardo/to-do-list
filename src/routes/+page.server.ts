@@ -12,7 +12,11 @@ export const actions = {
             nickname: string;
             password: string;
         }
-        
+        if (nickname.length < 3 && password.length < 3) {
+            return {
+                value: 4
+            }
+        }
         // console.log(password, nickname)
         const users = await prisma.user.findMany()
         let names: string[] = []
@@ -41,6 +45,11 @@ export const actions = {
         const {nickname, password} = Object.fromEntries(await request.formData()) as {
             nickname: string;
             password: string;
+        }
+        if (nickname.length < 3 && password.length < 3) {
+            return {
+                value: 4
+            }
         }
         const findUsers = await prisma.user.findMany()
         let names: string[] = []
